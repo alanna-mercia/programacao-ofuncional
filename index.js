@@ -3,8 +3,6 @@ const prompt = require('prompt-sync')();
 function iniciar_programa_conversao() {
   console.log('Programa de conversão de moedas');
   const { moeda_incial, moeda_final, valor } = coletar_dados_usuario();
- 
-  const taxa = obter_taxa_cambio(moeda_incial, moeda_final);
 
   //pegar o retorno da convesão e criar uma função para exibir o resultado onde pode ser aplicado a List Comprehension
   converter_moeda(moeda_incial, moeda_final, valor, taxa);
@@ -61,6 +59,9 @@ function obter_taxa_cambio(moedaInicial, moedaFinal) {
 }
 
 function converter_moeda(moedaInicial, moedaFinal, valor, taxa) {
+  //Função de alta ordem, para obter a taxa de câmbio
+  const taxa = obter_taxa_cambio(moedaInicial, moedaFinal);
+
   if (taxa === null) {
     console.log('Conversão não disponível para essas moedas.');
     return;
