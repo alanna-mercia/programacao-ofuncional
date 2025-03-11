@@ -1,31 +1,47 @@
-//CRIAÇAO FUNÇÃO LAMBDA//
+const prompt = require('prompt-sync')();
 
-const areaRetangulo = (base,altura) => base*altura
-console.log(areaRetangulo(7,25))
+function iniciar_programa_conversao() {
+  console.log('Programa de conversão de moedas');
+  const { moeda_incial, moeda_final, valor } = coletar_dados_usuario();
+  console.log(`Convertendo ${valor} de ${moeda_incial} para ${moeda_final}...`);
+}
 
+function coletar_dados_usuario() {
+  const moedas = ['EURO', 'DOLAR', 'REAL', 'LIBRA'];
+  let moeda_incial = '';
+  let moeda_final = '';
+  let valor = 0;
 
-//CRIAÇÃO LIST COMPREHENSION//
-const taxasDeCambio = {
-    USD: 5.81, //1 dólar
-    EUR: 6.36, //1 euro
-    GBP: 7.47, //1 libra esterlina
-    JPY: 0.036 //1 iene japonês
-};
+  do {
+    moeda_incial = prompt(`Escolha a moeda inicial: ${moedas.join(', ')}: `);
 
-const converterValores = (valores, moeda) => {
-    if(!taxasDeCambio[moeda]) {
-        throw new Error('Opa! A moeda ${moeda} não é suportada.');
+    if (!moedas.includes(moeda_incial.toUpperCase())) {
+      console.log('Moeda inválida');
     }
+  } while (!moedas.includes(moeda_incial.toUpperCase()));
 
-    return valores.map(valor => ({
-        valorOriginal: valor,
-        convertido: valor * taxasDeCambio[moeda],
-        moedaDestino: moeda
-    }));
-};
+  do {
+    moeda_final = prompt(`Escolha a moeda final: ${moedas.join(', ')}: `);
 
-const valores = [10, 25, 50];
-const moeda = ["USD", "EUR", "GBP", "JYP"];
-const resultados = moeda.flatmap(moeda => converterValores(valores, moeda));
+    if (!moedas.includes(moeda_final.toUpperCase())) {
+      console.log('Moeda inválida');
+    }
+  } while (!moedas.includes(moeda_final.toUpperCase()));
 
-console.log(resultados);
+  do {
+    valor = parseFloat(prompt('Digite o valor a ser convertido: '));
+
+    if (isNaN(valor) || valor <= 0) {
+      console.log('Valor inválido');
+      valor = 0;
+    }
+  } while (valor == 0);
+
+  return {
+    moeda_incial,
+    moeda_final,
+    valor,
+  };
+}
+
+iniciar_programa_conversao();
