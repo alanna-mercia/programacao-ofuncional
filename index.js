@@ -54,13 +54,19 @@ function obter_taxa_cambio(moedaInicial, moedaFinal) {
     LIBRA: { EURO: 1.18, DOLAR: 1.28, REAL: 6.8 },
   };
 
-  if (moedaInicial === moedaFinal) return 1;
-  return taxasMockadas[moedaInicial]?.[moedaFinal] || null;
+  return () => {
+    if (moedaInicial.toUpperCase() === moedaFinal.toUpperCase()) return 1;
+    return (
+      taxasMockadas[moedaInicial.toUpperCase()]?.[moedaFinal.toUpperCase()] ||
+      null
+    );
+  };
 }
 
 function converter_moeda(moedaInicial, moedaFinal, valor) {
-  //Função de alta ordem, para obter a taxa de câmbio
-  const taxa = obter_taxa_cambio(moedaInicial, moedaFinal);
+  //Função de alta ordem, para obter a taxa de câmbio - jonas
+  const obterTaxa = obter_taxa_cambio(moedaInicial, moedaFinal);
+  const taxa = obterTaxa();
 
   if (taxa === null) {
     console.log('Conversão não disponível para essas moedas.');
@@ -70,12 +76,14 @@ function converter_moeda(moedaInicial, moedaFinal, valor) {
   const valorConvertido = valor * taxa;
 
   // (Função lambda) - Alanna Mércia
-  const formatar_valor_moeda = () => `Resultado: ${valor.toFixed(
-      2
-    )} ${moedaInicial} equivale a ${valorConvertido.toFixed(2)} ${moedaFinal}`
-
   console.log(
-    formatar_valor_moeda()
+    (() =>
+      `Resultado: ${valor.toFixed(
+        2
+      )} ${moedaInicial} equivale a ${valorConvertido.toFixed(
+        2
+      )} ${moedaFinal}`)()
   );
 }
+
 iniciar_programa_conversao();
