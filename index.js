@@ -76,7 +76,6 @@ function converter_moeda(moedaInicial, moedaFinal, valor) {
   const valorConvertido = valor * taxa;
 
   // (Função lambda) - Alanna Mércia
- // (Função lambda) - Alanna Mércia
  const formatarResultado = (
   valor,
   moedaInicial,
