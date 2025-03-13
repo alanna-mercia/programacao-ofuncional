@@ -5,7 +5,7 @@ function iniciar_programa_conversao() {
   const { moeda_incial, moeda_final, valor } = coletar_dados_usuario();
 
   //pegar o retorno da convesão e criar uma função para exibir o resultado onde pode ser aplicado a List Comprehension
-  converter_moeda(moeda_incial, moeda_final, valor, taxa);
+  converter_moeda(moeda_incial, moeda_final, valor);
 }
 
 function coletar_dados_usuario() {
@@ -58,7 +58,7 @@ function obter_taxa_cambio(moedaInicial, moedaFinal) {
   return taxasMockadas[moedaInicial]?.[moedaFinal] || null;
 }
 
-function converter_moeda(moedaInicial, moedaFinal, valor, taxa) {
+function converter_moeda(moedaInicial, moedaFinal, valor) {
   //Função de alta ordem, para obter a taxa de câmbio
   const taxa = obter_taxa_cambio(moedaInicial, moedaFinal);
 
@@ -69,13 +69,13 @@ function converter_moeda(moedaInicial, moedaFinal, valor, taxa) {
 
   const valorConvertido = valor * taxa;
 
-  //em vez desse console cria uma função para retornar o valor com casas decimais ou adicionando símbolos monetários (Função lambda)
-  console.log(
-    `Resultado: ${valor.toFixed(
+  // (Função lambda) - Alanna Mércia
+  const formatar_valor_moeda = () => `Resultado: ${valor.toFixed(
       2
     )} ${moedaInicial} equivale a ${valorConvertido.toFixed(2)} ${moedaFinal}`
+
+  console.log(
+    formatar_valor_moeda()
   );
 }
-
-
 iniciar_programa_conversao();
