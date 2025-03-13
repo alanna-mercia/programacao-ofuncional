@@ -5,7 +5,7 @@ function iniciar_programa_conversao() {
   const { moeda_incial, moeda_final, valor } = coletar_dados_usuario();
 
   //pegar o retorno da convesão e criar uma função para exibir o resultado onde pode ser aplicado a List Comprehension
-  converter_moeda(moeda_incial, moeda_final, valor);
+ return converter_moeda(moeda_incial, moeda_final, valor);
 }
 
 function coletar_dados_usuario() {
@@ -76,14 +76,19 @@ function converter_moeda(moedaInicial, moedaFinal, valor) {
   const valorConvertido = valor * taxa;
 
   // (Função lambda) - Alanna Mércia
-  console.log(
-    (() =>
-      `Resultado: ${valor.toFixed(
-        2
-      )} ${moedaInicial} equivale a ${valorConvertido.toFixed(
-        2
-      )} ${moedaFinal}`)()
-  );
+ // (Função lambda) - Alanna Mércia
+ const formatarResultado = (
+  valor,
+  moedaInicial,
+  valorConvertido,
+  moedaFinal
+) =>
+  `Resultado: ${valor.toFixed(
+    2
+  )} ${moedaInicial} equivale a ${valorConvertido.toFixed(2)} ${moedaFinal}`;
+
+return formatarResultado(valor, moedaInicial, valorConvertido, moedaFinal);
 }
 
-iniciar_programa_conversao();
+const resultado = iniciar_programa_conversao();
+console.log(resultado)
