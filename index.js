@@ -1,26 +1,51 @@
 const prompt = require('prompt-sync')();
 
+
 function iniciar_programa_conversao() {
   console.log('Programa de conversão de moedas');
-  const { moeda_incial, moeda_final, valor } = coletar_dados_usuario();
 
-  //pegar o retorno da convesão e criar uma função para exibir o resultado onde pode ser aplicado a List Comprehension
- return converter_moeda(moeda_incial, moeda_final, valor);
+  while(true) {
+     const { moeda_inicial, moeda_final, valor } = coletar_dados_usuario();
+
+  const resultado = converter_moeda(moeda_inicial, moeda_final, valor);
+    console.log('Resultado da Conversão:');
+    console.log(resultado);
+
+  historicoConversoes.adicionarConversao(resultado);
+    
+  let opcao;
+  do {
+  opcao = prompt('Digite "nova" para fazer outra conversão ou "histórico" para ver o histórico: ').toLowerCase().trim();
+    if (opcao === 'historico') {
+     console.log('Histórico:');
+     console.log(obterHistorico().join('\n'));
+  opcao = prompt('Digite "nova" para fazer outra conversão ou "histórico" para ver o histórico: ').toLowerCase().trim();
+  } else if (opcao !== 'nova') {
+    console.log('Opção inválida. Tente novamente.');
+  }
+} while (opcao !== 'nova' && opcao !== 'historico');
+
+  if (opcao === 'historico') {
+   continue;
+} else if (opcao === 'nova') {
+   continue;
+   }
+ }
 }
 
 function coletar_dados_usuario() {
   const moedas = ['EURO', 'DOLAR', 'REAL', 'LIBRA'];
-  let moeda_incial = '';
+  let moeda_inicial = '';
   let moeda_final = '';
   let valor = 0;
 
   do {
-    moeda_incial = prompt(`Escolha a moeda inicial: ${moedas.join(', ')}: `);
+    moeda_inicial = prompt(`Escolha a moeda inicial: ${moedas.join(', ')}: `);
 
-    if (!moedas.includes(moeda_incial.toUpperCase())) {
+    if (!moedas.includes(moeda_inicial.toUpperCase())) {
       console.log('Moeda inválida');
     }
-  } while (!moedas.includes(moeda_incial.toUpperCase()));
+  } while (!moedas.includes(moeda_inicial.toUpperCase()));
 
   do {
     moeda_final = prompt(`Escolha a moeda final: ${moedas.join(', ')}: `);
@@ -40,7 +65,7 @@ function coletar_dados_usuario() {
   } while (valor == 0);
 
   return {
-    moeda_incial,
+    moeda_inicial,
     moeda_final,
     valor,
   };
@@ -89,5 +114,22 @@ function converter_moeda(moedaInicial, moedaFinal, valor) {
 return formatarResultado(valor, moedaInicial, valorConvertido, moedaFinal);
 }
 
-const resultado = iniciar_programa_conversao();
-console.log(resultado)
+//Lizandra Raquel da Silva Assunção
+//criação da função closure para exibir o historico das 2 ultimas conversões.
+//Ao realizar mais de 2 conversões, a primeira conversão feita é removida dando lugar a uma nova conversão.
+
+const criarHistoricoConversoes = () => {
+  let historico = [];
+const adicionarConversao = (resultado) => {
+    historico.unshift(resultado);
+    if (historico.length >2) {
+      historico.pop();
+    }
+  };
+const mostrarHistorico = () => historico;
+  return { adicionarConversao, mostrarHistorico};
+};
+const historicoConversoes = criarHistoricoConversoes();
+  const obterHistorico = () => historicoConversoes.mostrarHistorico();
+
+const resultado = iniciar_programa_conversao(); console.log(resultado)
