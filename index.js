@@ -40,7 +40,7 @@ function coletar_dados_usuario() {
   let valor = 0;
 
   do {
-    moeda_inicial = prompt(`Escolha a moeda inicial: ${moedas.join(', ')}: `);
+    const moeda_inicial = listarMoedas();
 
     if (!moedas.includes(moeda_inicial.toUpperCase())) {
       console.log('Moeda inválida');
@@ -48,7 +48,7 @@ function coletar_dados_usuario() {
   } while (!moedas.includes(moeda_inicial.toUpperCase()));
 
   do {
-    moeda_final = prompt(`Escolha a moeda final: ${moedas.join(', ')}: `);
+    const moeda_final = listarMoedas();
 
     if (!moedas.includes(moeda_final.toUpperCase())) {
       console.log('Moeda inválida');
@@ -133,3 +133,30 @@ const historicoConversoes = criarHistoricoConversoes();
   const obterHistorico = () => historicoConversoes.mostrarHistorico();
 
 const resultado = iniciar_programa_conversao(); console.log(resultado)
+
+//Adicionar a list comprehension - Laiza S. Fernandes
+//Deve listar as moedas numeradas e solicitar que o usuário escolhao núm correspondente a moeda que deseja converter
+
+function listarMoedas() {
+  const moedas = ['EURO', 'DOLAR', 'REAL', 'LIBRA'];
+  const listaFormatada = moedas.map((moeda, index) => `${index + 1} - ${moeda}`);
+  console.log('Moedas disponíveis:\n' + listaFormatada.join('\n'));
+
+  //Loop que solicita a moeda e verifica se a escolha é válida
+  let escolha;
+  do {
+    escolha = parseInt(prompt('Escolha o número da moeda: '));
+
+    if (isNaN(escolha)) {
+      console.log('Por favor, insira um número válido.');
+    } else if (escolha < 1 || escolha > moedas.length) {
+      console.log('Por favor, insira um número entre 1 e ${moedas.length}. ');
+    } 
+  } while (isNaN(escolha) || escolha < 1 || escolha > moedas.length);
+
+  return moedas[escolha - 1]; //Retorna a moeda
+}
+
+//Chama a função de escolher a moeda
+const moeda_inicial = listarMoedas();
+const moeda_final = listarMoedas();
