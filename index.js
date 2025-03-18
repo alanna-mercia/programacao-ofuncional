@@ -15,21 +15,23 @@ function iniciar_programa_conversao() {
     
   let opcao;
   do {
-  opcao = prompt('Digite "nova" para fazer outra conversão ou "histórico" para ver o histórico: ').toLowerCase().trim();
+  opcao = prompt('Digite "nova" para fazer outra conversão ou "histórico" ou "sair" para finalizar: ').toLowerCase().trim();
     if (opcao === 'historico') {
      console.log('Histórico:');
      console.log(obterHistorico().join('\n'));
-  opcao = prompt('Digite "nova" para fazer outra conversão ou "histórico" para ver o histórico: ').toLowerCase().trim();
-  } else if (opcao !== 'nova') {
+  opcao = prompt('Digite "nova" para fazer outra conversão ou "histórico" ou "sair" para finalizar: ').toLowerCase().trim();
+  } else if (opcao !== 'nova' || opcao !== 'sair') {
     console.log('Opção inválida. Tente novamente.');
   }
-} while (opcao !== 'nova' && opcao !== 'historico');
+} while (opcao !== 'nova' && opcao !== 'historico' && opcao !== 'sair');
 
   if (opcao === 'historico') {
    continue;
 } else if (opcao === 'nova') {
    continue;
-   }
+} else if (opcao === 'sair') {
+  break;
+}
  }
 }
 
